@@ -19,8 +19,11 @@ app.use(express.urlencoded({extended:false}))
 //routes
 
 app.get('/',async (req,res)=>{
-    const urls = await urlModel.find();
-    res.render('index',{allUrls:urls});
+    let limit_  = req.query.limit || 7;
+    const urls = await urlModel.find().limit(limit_).skip(req.query.skip || 0);
+    let all = await (await urlModel.find()).length;
+    let num_of_pages =  Math.abs(all%limit_==0? all/limit_ :all/limit_+1); 
+    res.render('index',{allUrls:urls,num_of_pages:num_of_pages,limit_:limit_,skip_:req.query.skip});
 })
 
 app.post('/shortUrls',async (req,res)=>{

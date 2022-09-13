@@ -49,6 +49,15 @@
                 
             </tbody>
         </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item <% if(skip_==0){ %> d-none <% }  %>"><a class="page-link" href="/?skip=<%= skip_-limit_ %>">Previous</a></li>
+              <% for(let i=1;i<=num_of_pages;i++) { %>
+              <li class="page-item <% if(skip_/limit_+1==i){ %> active <% }  %>"><a class="page-link" href="/?skip=<%= (i-1)*limit_ %>"><%= i %></a></li>
+              <% } %>   
+              <li class="page-item <% if(skip_==(Math.trunc(num_of_pages)-1)*limit_){ %> d-none <% }  %>"><a class="page-link" href="/?skip=<%= Number(skip_)+Number(limit_) %>">Next</a></li>
+            </ul>
+          </nav>
     </div>
 </body>
 </html>
