@@ -20,8 +20,8 @@ app.use(express.urlencoded({extended:false}))
 
 app.get('/',async (req,res)=>{
     let limit_  = req.query.limit || 7;
-    const urls = await urlModel.find().limit(limit_).skip(req.query.skip || 0);
-    let all = await (await urlModel.find()).length;
+    const urls = await urlModel.find().sort({_id:-1}).limit(limit_).skip(req.query.skip || 0);
+    let all =  (await urlModel.find()).length;
     let num_of_pages =  Math.abs(all%limit_==0? all/limit_ :all/limit_+1); 
     res.render('index',{allUrls:urls,num_of_pages:num_of_pages,limit_:limit_,skip_:req.query.skip});
 })
