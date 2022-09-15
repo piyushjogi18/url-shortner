@@ -7,7 +7,7 @@ const app = express();
 
 //connect with db
 
-   const dbconnection =  mongoose.connect('mongodb://localhost:27017',{
+   const dbconnection =  mongoose.connect('mongodb+srv://piyush_jogi1810:piyush_jogi1810@cluster0.nzs28.mongodb.net/?retryWrites=true&w=majority',{
     dbName:'urlshortner', useNewUrlParser: true, useUnifiedTopology: true
     })
     .then((db)=>{console.log('db connected')})
