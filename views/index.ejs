@@ -12,11 +12,14 @@
         font-family: cursive;
     }
     .cs-heading {
-    font-weight: 500;
-    font-size: 30px;
-    text-align: center;
-    font-style: oblique;
-    padding-top: 15px;
+        font-weight: 500;
+        font-size: 30px;
+        text-align: center;
+        font-style: oblique;
+        padding-top: 15px;
+    }
+    .cs-subheading {
+        text-align: center;
     }
 </style>
 <body>
@@ -27,6 +30,23 @@
             <input placeholder="Enter or paste the url here" type="url" name="fullurl" id="fullurl" required class="form-control col mr-2" />
             <button type="submit" class="btn btn-success">Shrink</button>
         </form>
+        <form action="/" class="my-4 my-lg-4">
+            <div class="row">
+                <div class="col">
+                    <select name="clicks" class="custom-select">
+                        <option <%= clicks=="all"?'selected':'' %> value="all">All clicks</option>
+                        <option <%= clicks=="less"?'selected':'' %> value="less">Clicks less than or equal 2</option>
+                        <option <%= clicks=="greater"?'selected':'' %> value="greater">Clicks greater than 2</option>
+                    </select>
+                </div>
+                <div class="col">
+                        <input name="search" class="form-control mr-sm-2" type="search" value="<%= search %>" placeholder="Search" aria-label="Search">
+                </div>
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </div>
+        </form>    
+
+        <% if(allUrls.length>0){ %>  
         <table class="table table-striped table-responsive">
             <thead>
                 <tr>
@@ -51,13 +71,20 @@
         </table>
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-              <li class="page-item <% if(skip_==0){ %> d-none <% }  %>"><a class="page-link" href="/?skip=<%= skip_-limit_ %>">Previous</a></li>
+              <li class="page-item <% if(skip_==0){ %> d-none <% }  %>"><a class="page-link" href="/?<%= `skip=${(Number(skip_)-Number(limit_))}&limit=${limit_}&clicks=${clicks}&search=${search}` %>">Previous</a></li>
               <% for(let i=1;i<=num_of_pages;i++) { %>
-              <li class="page-item <% if(skip_/limit_+1==i){ %> active <% }  %>"><a class="page-link" href="/?skip=<%= (i-1)*limit_ %>"><%= i %></a></li>
+              <li class="page-item <% if(skip_/limit_+1==i){ %> active <% }  %>"><a class="page-link" href="/?<%= `skip= ${(i-1)*limit_}&limit=${limit_}&clicks=${clicks}&search=${search}`  %>"><%= i %></a></li>
               <% } %>   
-              <li class="page-item <% if(skip_==(Math.trunc(num_of_pages)-1)*limit_){ %> d-none <% }  %>"><a class="page-link" href="/?skip=<%= Number(skip_)+Number(limit_) %>">Next</a></li>
+              <li class="page-item <% if(skip_==(Math.trunc(num_of_pages)-1)*limit_){ %> d-none <% }  %>"><a class="page-link" href="/?<%= `skip= ${Number(skip_)+Number(limit_)}&limit=${limit_}&clicks=${clicks}&search=${search}` %>">Next</a></li>
             </ul>
           </nav>
+        
+        <% } else { %>  
+        <div style="text-align: center;">
+          <h3 class="my-4 my-lg-4 cs-subheading">No records to display</h3>  
+          <a href="/" class="btn btn-outline-success">Reset</a>
+        </div>   
+        <% } %>    
     </div>
 </body>
 </html>
